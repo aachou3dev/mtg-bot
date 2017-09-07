@@ -1,0 +1,23 @@
+{
+  "name": "mtg",
+  "version": "1.0.0",
+  "description": "MTG Bot",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm install --save botbuilder"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aachou3dev/mtg-bot.git"
+  },
+  "author": "Aaron Chou",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/aachou3dev/mtg-bot/issues"
+  },
+  "homepage": "https://github.com/aachou3dev/mtg-bot#readme",
+  "dependencies": {
+    "botbuilder": "^3.9.1",
+    "restify": "^5.2.0"
+  }
+}
