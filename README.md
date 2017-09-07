@@ -1,0 +1,2 @@
+# mtg-bot
+MTG Bot
