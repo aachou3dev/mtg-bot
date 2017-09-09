@@ -25,15 +25,15 @@ var bot = new builder.UniversalBot(connector, function (session) {
   var cardName;
   var text = session.message.text;
   while (cardName = re.exec(text)){
-    formattedCardName = cardName[1].replace(/\s/g, "+").replace(/'/g, "");
-    request("https://api.scryfall.com/cards/named?exact=" + formattedCardName + "&format=json", function (error, response, body) {
+    formattedCardName = cardName[1].replace(/\s/g, "").replace(/'/g, "");
+    request("https://api.scryfall.com/cards/search?q=!" + formattedCardName + "+not:online", function (error, response, body) {
         if (!error && response.statusCode == 200) {
           var info = JSON.parse(body);
-          if (info.hasOwnProperty('image_uri')){
-            session.send(info.image_uri);
+          if (info.data[0].hasOwnProperty('image_uri')){
+            session.send(info.data[0].image_uri);
           }
           else{
-            session.send("No image URL found for " + info.name + ".");
+            session.send("No image URL found for " + info.data[0].name + ".");
           }
         }
         else{
@@ -45,18 +45,18 @@ var bot = new builder.UniversalBot(connector, function (session) {
   // check for cards asking for pricing
   var re_price_check = /\$\[\[(.*?)\]\]/g;
   while (cardName = re_price_check.exec(text)){
-    formattedCardName = cardName[1].replace(/\s/g, "+").replace(/'/g, "");
-    request("https://api.scryfall.com/cards/named?exact=" + formattedCardName + "&format=json", function (error, response, body) {
+    formattedCardName = cardName[1].replace(/\s/g, "").replace(/'/g, "");
+    request("https://api.scryfall.com/cards/search?q=!" + formattedCardName + "+not:online", function (error, response, body) {
         if (!error && response.statusCode == 200) {
           var info = JSON.parse(body);
-          if (info.hasOwnProperty('image_uri')){
-            session.send(info.image_uri);
+          if (info.data[0].hasOwnProperty('image_uri')){
+            session.send(info.data[0].image_uri);
           }
           else{
-            session.send("No image URL found for " + info.name + ".");
+            session.send("No image URL found for " + info.data[0].name + ".");
           }
-          if (info.hasOwnProperty('usd')){
-            session.send(info.name + " is about $" + info.usd + ".")
+          if (info.data[0].hasOwnProperty('usd')){
+            session.send(info.data[0].name + " is about $" + info.data[0].usd + ".")
           }
         }
         else{
