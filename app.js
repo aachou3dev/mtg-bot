@@ -20,7 +20,6 @@ server.post('/api/messages', connector.listen());
 // Receive messages from the user and respond by echoing each message back (prefixed with 'You said:')
 var bot = new builder.UniversalBot(connector, function (session) {
   var cardName = getCardName(session.message.text)
-  session.send(cardName)
   if (cardName != null){
     request('https://api.scryfall.com/cards/named?exact=' + cardName + '&format=json', function (error, response, body) {
         if (!error && response.statusCode == 200) {
