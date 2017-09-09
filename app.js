@@ -19,32 +19,24 @@ server.post('/api/messages', connector.listen());
 
 // Receive messages from the user and respond by echoing each message back (prefixed with 'You said:')
 var bot = new builder.UniversalBot(connector, function (session) {
-  var cardName = getCardName(session.message.text)
-  if (cardName != null){
-    request("https://api.scryfall.com/cards/named?exact=" + cardName + "&format=json", function (error, response, body) {
+  var re = /\[\[(.*?)\]\]/g;
+  var cardName;
+  var text = session.message.text;
+  while (cardName = re.exec(text)){
+    formattedCardName = cardName[1].replace(/\s/g, "+").replace(/'/g, "");
+    request("https://api.scryfall.com/cards/named?exact=" + formattedCardName + "&format=json", function (error, response, body) {
         if (!error && response.statusCode == 200) {
           var info = JSON.parse(body);
-          var foundUrl = false;
           if (info.hasOwnProperty('image_uri')){
             session.send(info.image_uri);
           }
           else{
-            session.send("No image URL found for this card.")
+            session.send("No image URL found card.");
           }
         }
         else{
-          session.send("Unable to find card.")
+          session.send("Unable to find card.");
         }
     })
   }
 });
-
-function getCardName(message){
-  var re = /\[\[(.*?)\]\]/g;
-  var cardName = re.exec(message);
-  if (cardName == null){
-    return null
-  }
-  cardName = cardName[1];
-  return cardName.replace(/\s/g, "+").replace(/'/g, "");
-}
