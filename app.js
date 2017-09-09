@@ -21,7 +21,7 @@ server.post('/api/messages', connector.listen());
 var bot = new builder.UniversalBot(connector, function (session) {
   var cardName = getCardName(session.message.text)
   if (cardName != null){
-    request('https://api.scryfall.com/cards/named?fuzzy=' + cardName + '&format=json', function (error, response, body) {
+    request('https://api.scryfall.com/cards/named?exact=' + cardName + '&format=json', function (error, response, body) {
         if (!error && response.statusCode == 200) {
           var info = JSON.parse(body);
           var foundUrl = false;
