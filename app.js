@@ -46,5 +46,5 @@ function getCardName(message){
     return null
   }
   cardName = cardName[1];
-  return cardName.replace(/\s/g, "+");
+  return cardName.replace(/\s/g, "+").replace(/'/g, "");
 }
