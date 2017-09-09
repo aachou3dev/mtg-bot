@@ -34,6 +34,7 @@ var bot = new builder.UniversalBot(connector, function (session) {
         }
         else{
           session.send("Unable to find card.")
+          session.send(cardName)
         }
     })
   }
