@@ -25,7 +25,7 @@ var bot = new builder.UniversalBot(connector, function (session) {
   var cardName;
   var text = session.message.text;
   while (cardName = re.exec(text)){
-    formattedCardName = cardName[1].replace(/\s/g, "").replace(/'/g, "");
+    formattedCardName = cardName[1].replace(/\s/g, "").replace(/'/g, "").replace(/%27/g, "");
     request("https://api.scryfall.com/cards/search?q=!" + formattedCardName + "+not:online", function (error, response, body) {
         if (!error && response.statusCode == 200) {
           var info = JSON.parse(body);
@@ -45,7 +45,7 @@ var bot = new builder.UniversalBot(connector, function (session) {
   // check for cards asking for pricing
   var re_price_check = /\$\[\[(.*?)\]\]/g;
   while (cardName = re_price_check.exec(text)){
-    formattedCardName = cardName[1].replace(/\s/g, "").replace(/'/g, "");
+    formattedCardName = cardName[1].replace(/\s/g, "").replace(/'/g, "").replace(/%27/g, "");
     request("https://api.scryfall.com/cards/search?q=!" + formattedCardName + "+not:online", function (error, response, body) {
         if (!error && response.statusCode == 200) {
           var info = JSON.parse(body);
