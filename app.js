@@ -26,6 +26,7 @@ var bot = new builder.UniversalBot(connector, function (session) {
   var text = session.message.text;
   while (cardName = re.exec(text)){
     formattedCardName = cardName[1].replace(/\s/g, "").replace(/'/g, "").replace(/%27/g, "");
+    session.send(formattedCardName);
     request("https://api.scryfall.com/cards/search?q=!" + formattedCardName + "+not:online", function (error, response, body) {
         if (!error && response.statusCode == 200) {
           var info = JSON.parse(body);
